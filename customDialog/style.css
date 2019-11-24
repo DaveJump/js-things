@@ -1,0 +1,55 @@
+.custom-dialog{
+  position: fixed;
+  top: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  font-size: 14px;
+  color: #666;
+  display: none;
+  z-index: 999;
+}
+.custom-dialog.visible{
+  display: block;
+}
+.custom-dialog__title{
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: #f3f3f3;
+}
+.custom-dialog__content{
+  padding: 15px 10px;
+  min-height: 150px;
+}
+.custom-dialog__footer{
+  padding: 20px;
+  text-align: right;
+}
+.custom-dialog__button{
+  padding: 5px 10px;
+  border-radius: 4px;
+  border-width: 1px;
+  border-style: solid;
+  user-select: none;
+  cursor: pointer;
+}
+.custom-dialog__button + .custom-dialog__button{
+  margin-left: 10px;
+}
+.custom-dialog__button.button__confirm{
+  color: #fff;
+  background-color: #1673ca;
+  border-color: #1673ca;
+}
+.custom-dialog__button.button__confirm:hover{
+  background-color: #2a85da;
+  border-color: #2a85da;
+}
+.custom-dialog__button.button__cancel{
+  border-color: #d3d3d3;
+}
+.custom-dialog__button.button__cancel:hover{
+  background-color: #f1f1f1;
+}

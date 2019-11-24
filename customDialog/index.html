@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <button id="open-dialog">打开对话框</button>
+  
+  <script src="./version-proto.js"></script>
+  <script>
+    var dialog = new CustomDialog({
+      title: '标题',
+      content: '内容内容...'
+    })
+
+    var showCallback = function(options) {
+      console.log('show__111!', options)
+    }
+    dialog.on('show', showCallback)
+    dialog.on('show', function(options) {
+      console.log('show__333!')
+    })
+    dialog.on('show', function(options) {
+      console.log('show__222!', options)
+    })
+    dialog.off('show', showCallback)
+    dialog.on('confirm', function(options) {
+      console.log(options.confirmText)
+      console.log(this, 'this')
+    })
+    var fn = function(options) {
+      console.log(options.cancelText)
+    }
+    dialog.on('close', fn)
+    document.getElementById('open-dialog').addEventListener('click', function() {
+      dialog.show()
+    }, false)
+  </script>
+</body>
+</html>
