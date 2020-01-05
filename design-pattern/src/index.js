@@ -1,0 +1,1 @@
+require('./patterns/object-oriented/example')
