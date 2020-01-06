@@ -1,3 +1,7 @@
+/**
+ * Factory pattern
+ */
+
 const restaurant = (function() {
   const menu = [
     {
