@@ -1,5 +1,5 @@
 /**
- * Proxy Pattern
+ * Proxy pattern
  */
 
 // virtual proxy
