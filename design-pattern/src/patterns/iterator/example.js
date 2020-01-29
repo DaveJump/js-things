@@ -6,13 +6,14 @@ function each(set, callback) {
   if (!set) return
   const iterator = set[Symbol.iterator]
   if (iterator) {
-    if (Array.isArray(Array.from(set))) {
+    const setArr = Array.from(set)
+    if (Array.isArray(setArr)) {
       if (set instanceof Map) {
         for (let [key, value] of set) {
           callback && callback.call(set, key, value)
         }
       } else {
-        set.forEach((i, idx) => {
+        setArr.forEach((i, idx) => {
           callback && callback.call(set, i, idx)
         })
       }
