@@ -1,0 +1,45 @@
+.todo-list {
+  margin-top: 15px;
+  border: 1px solid #ccc;
+  max-height: 500px;
+  min-height: 50px;
+
+  .todo-item {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+
+    &:hover {
+      background-color: #f9f9f9;
+    }
+
+    & + .todo-item {
+      border-top: 1px solid #ccc;
+    }
+
+    &-btns {
+      > span {
+        color: #3A92EF;
+        padding: 0 10px;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    &.is-done {
+      > span {
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  .empty-records {
+    color: #999;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+  }
+}
