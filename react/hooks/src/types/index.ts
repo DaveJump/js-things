@@ -4,13 +4,18 @@ export type AddInputProps = Partial<{
 }>
 
 export interface TodoItem {
+  id: string
   title: string
   completed: boolean
 }
 
 export type TodoListProps = Partial<{
   list: TodoItem[],
-  onDone: (index: number) => void
-  onDelete: (index: number) => void
-  onUndone: (index: number) => void
+  onDone: (index: string | number) => void
+  onDelete: (index: string | number) => void
+  onUndone: (index: string | number) => void
 }>
+
+export interface FilterProps {
+  onChange?: (value: string) => void
+}
