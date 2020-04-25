@@ -16,6 +16,9 @@ export type TodoListProps = Partial<{
   onUndone: (index: string | number) => void
 }>
 
+export type FilterValues = 'all' | 'done' | 'undone'
+
 export interface FilterProps {
-  onChange?: (value: string) => void
+  onChange?: (value: FilterValues) => void
 }
+

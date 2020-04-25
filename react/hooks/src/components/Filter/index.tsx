@@ -1,20 +1,32 @@
-import React, { useState, useEffect } from 'react'
-import { FilterProps } from '@/types'
+import React, { useEffect } from 'react'
+import { FilterProps, FilterValues } from '@/types'
 import classNames from 'classnames'
 import './style.scss'
+import { useSelector, useDispatch } from 'react-redux'
+import { SaveFilterValueAction } from '@/store/actions/filter'
+import { StoreStateModules } from '@/store'
+import saveFilterValue from '@/store/actions/filter'
+import { Dispatch } from 'redux'
 
-const filterItems = ['all', 'done', 'undone']
+const filterItems: FilterValues[] = ['all', 'done', 'undone']
 
-const Filter = ({ onChange }: FilterProps) => {
-  const [filterValue, setFilterValue] = useState('all')
+const Filter: React.FC<FilterProps> = ({ onChange }) => {
+  // const [filterValue, setFilterValue] = useState('all')
+  const state = useSelector((state: StoreStateModules) => state)
+  const dispatch = useDispatch<Dispatch<SaveFilterValueAction>>()
 
   useEffect(() => {
-    onChange?.(filterValue)
-  }, [filterValue])
+    dispatchValue(state.filter.filterValue)
+  }, [])
 
-  function handleChange(value: string) {
-    if (value === filterValue) return
-    setFilterValue(value)
+  function handleChange(value: FilterValues) {
+    if (value === state.filter.filterValue) return
+    dispatchValue(value)
+  }
+
+  function dispatchValue(value: FilterValues) {
+    onChange?.(value)
+    dispatch(saveFilterValue(value))
   }
 
   return (
@@ -24,7 +36,7 @@ const Filter = ({ onChange }: FilterProps) => {
           key={value}
           className={classNames({
             'filter-item': true,
-            'is-active': value === filterValue,
+            'is-active': value === state.filter.filterValue,
           })}
           onClick={() => handleChange(value)}
         >

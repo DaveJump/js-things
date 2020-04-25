@@ -3,7 +3,9 @@ import 'styles/App.scss'
 import AddInput from '@/components/AddInput'
 import TodoList from '@/components/TodoList'
 import Filter from '@/components/Filter'
-import { TodoItem } from '@/types'
+import { TodoItem,  } from '@/types'
+import { useSelector } from 'react-redux'
+import { StoreStateModules } from '@/store'
 
 type todoListType = TodoItem[]
 
@@ -19,9 +21,9 @@ function getStoredTodos(name: string = 'todoList'): todoListType {
   return todoList ? JSON.parse(todoList) : []
 }
 
-function App() {
+const App: React.FC = () => {
   const [newTodoVal, setNewTodoVal] = useState('')
-  const [filterValue, setFilterValue] = useState('all')
+  const state = useSelector((state: StoreStateModules) => state)
   const [todoList, setTodoList] = useState<todoListType>([...allTodos])
 
   useEffect(() => {
@@ -39,7 +41,7 @@ function App() {
       }
     ]
     allTodos = [...newAllTodos]
-    filterTodo(filterValue)
+    filterTodo(state.filter.filterValue)
   }
 
   function toggleDoneTodo(id: string | number, type: 'done' | 'undone') {
@@ -58,7 +60,7 @@ function App() {
       return todo
     })
     allTodos = [...newAllTodos]
-    if (filterValue === 'all') return
+    if (state.filter.filterValue === 'all') return
     filterTodo(type === 'done' ? 'undone' : 'done')
   }
 
@@ -89,7 +91,6 @@ function App() {
       <Filter
         onChange={(value) => {
           filterTodo(value)
-          setFilterValue(value)
         }}
       ></Filter>
       <TodoList

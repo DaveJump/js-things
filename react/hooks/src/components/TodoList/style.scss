@@ -1,6 +1,6 @@
 .todo-list {
   margin-top: 15px;
-  border: 1px solid #ccc;
+  border: 1px solid #e5e5e5;
   max-height: 500px;
   min-height: 50px;
 
@@ -14,17 +14,21 @@
     }
 
     & + .todo-item {
-      border-top: 1px solid #ccc;
+      border-top: 1px solid #e5e5e5;
     }
 
     &-btns {
       > span {
         color: #3A92EF;
-        padding: 0 10px;
         cursor: pointer;
+        font-size: 14px;
 
         &:hover {
           text-decoration: underline;
+        }
+
+        & + span {
+          margin-left: 12px;
         }
       }
     }
@@ -32,6 +36,7 @@
     &.is-done {
       > span {
         text-decoration: line-through;
+        color: #bebebe;
       }
     }
   }
