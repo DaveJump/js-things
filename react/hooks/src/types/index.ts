@@ -21,4 +21,3 @@ export type FilterValues = 'all' | 'done' | 'undone'
 export interface FilterProps {
   onChange?: (value: FilterValues) => void
 }
-

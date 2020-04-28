@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import 'styles/App.scss'
 import AddInput from '@/components/AddInput'
 import TodoList from '@/components/TodoList'
 import Filter from '@/components/Filter'
-import { TodoItem,  } from '@/types'
+import { TodoItem } from '@/types'
 import { useSelector } from 'react-redux'
 import { StoreStateModules } from '@/store'
 
@@ -30,7 +30,19 @@ const App: React.FC = () => {
     storeTodos(allTodos)
   }, [allTodos])
 
-  function addTodo() {
+  const filterTodo = useCallback((value: string) => {
+    let list: React.SetStateAction<todoListType> = []
+    if (value === 'all') {
+      list = [...allTodos]
+    } else if (value === 'done') {
+      list = allTodos.filter((todo) => todo.completed)
+    } else if (value === 'undone') {
+      list = allTodos.filter((todo) => !todo.completed)
+    }
+    setTodoList(list)
+  }, [])
+
+  const addTodo = useCallback(() => {
     if (!newTodoVal) return
     let newAllTodos = [
       ...allTodos,
@@ -42,7 +54,7 @@ const App: React.FC = () => {
     ]
     allTodos = [...newAllTodos]
     filterTodo(state.filter.filterValue)
-  }
+  }, [newTodoVal])
 
   function toggleDoneTodo(id: string | number, type: 'done' | 'undone') {
     setTodoList(
@@ -64,40 +76,26 @@ const App: React.FC = () => {
     filterTodo(type === 'done' ? 'undone' : 'done')
   }
 
-  function deleteTodo(id: string | number) {
+  const deleteTodo = useCallback((id: string | number) => {
     setTodoList(todoList.filter((todo) => todo.id !== id))
     let newAllTodos = allTodos.filter(todo => todo.id !== id)
     allTodos = [...newAllTodos]
-  }
-
-  function filterTodo(value: string) {
-    let list: React.SetStateAction<todoListType> = []
-    if (value === 'all') {
-      list = [...allTodos]
-    } else if (value === 'done') {
-      list = allTodos.filter((todo) => todo.completed)
-    } else if (value === 'undone') {
-      list = allTodos.filter((todo) => !todo.completed)
-    }
-    setTodoList(list)
-  }
+  }, [todoList])
 
   return (
     <div className="todo-app">
       <AddInput
-        onInput={(value) => setNewTodoVal(value)}
-        onEnter={() => addTodo()}
+        onInput={setNewTodoVal}
+        onEnter={addTodo}
       ></AddInput>
       <Filter
-        onChange={(value) => {
-          filterTodo(value)
-        }}
+        onChange={filterTodo}
       ></Filter>
       <TodoList
         list={todoList}
         onDone={(id) => toggleDoneTodo(id, 'done')}
         onUndone={(id) => toggleDoneTodo(id, 'undone')}
-        onDelete={(id) => deleteTodo(id)}
+        onDelete={deleteTodo}
       ></TodoList>
     </div>
   )
