@@ -85,7 +85,7 @@ const App: React.FC = () => {
   return (
     <div className="todo-app">
       <AddInput
-        onInput={setNewTodoVal}
+        onChange={setNewTodoVal}
         onEnter={addTodo}
       ></AddInput>
       <Filter

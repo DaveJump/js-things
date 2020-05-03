@@ -1,5 +1,5 @@
 export type AddInputProps = Partial<{
-  onInput: (value: string) => void
+  onChange: (value: string) => void
   onEnter: () => void
 }>
 
