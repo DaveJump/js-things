@@ -2,6 +2,10 @@
  * Singleton Pattern
  */
 
+declare interface CSSStyleDeclaration {
+  [prop: string]: any
+}
+
 const Toast = (function() {
   class Toast {
     $message: string
@@ -12,7 +16,7 @@ const Toast = (function() {
       this.$timeout = timeout || 1500
       this.hideWithTimeout = debounce(this.hide.bind(this), this.$timeout)
       const el = document.createElement('div')
-      const style = {
+      const style: Partial<CSSStyleDeclaration> = {
         backgroundColor: 'rgba(0,0,0,.6)',
         textAlign: 'center',
         width: '100px',
@@ -30,7 +34,7 @@ const Toast = (function() {
     }
     static getToast = (function() {
       // return the same instance if this method is being handled more than once
-      let instance
+      let instance: Toast
       return function(message: string, timeout?: number) {
         if (!instance) {
           instance = new Toast(message, timeout)
@@ -52,12 +56,12 @@ const Toast = (function() {
   }
 
   function debounce(handler: () => void, timeout: number = 1500) {
-    let timer
+    let timer: number | undefined
     return function() {
       if (timer) {
         clearTimeout(timer)
       }
-      timer = setTimeout(handler, timeout)
+      timer = window.setTimeout(handler, timeout)
     }
   }
 

@@ -2,9 +2,9 @@
  * Observer pattern
  */
 
-/* Example */
+/* Publish - Subscribe */
 
-interface SubjectIntf {
+interface ISubject {
   name: string
   observers: Observer[]
   addObserver(ob: Observer): void
@@ -12,14 +12,14 @@ interface SubjectIntf {
   notify(): void
 }
 
-interface ObserverIntf {
+interface IObserver {
   name: string
   update(sub?: Subject): void
   subscribeTo(sub: Subject): void
   unsubscribeTo(sub: Subject): void
 }
 
-class Subject implements SubjectIntf {
+class Subject implements ISubject {
   observers: Observer[]
   name: string = ''
   constructor(name: string) {
@@ -41,7 +41,7 @@ class Subject implements SubjectIntf {
   }
 }
 
-class Observer implements ObserverIntf {
+class Observer implements IObserver {
   name: string = ''
   constructor(name: string) {
     this.name = name
@@ -71,7 +71,7 @@ sub.notify()
 
 /* Event Emitter */
 
-type Events = { [name: string]: Array<() => any> }
+type Events = { [name: string]: (() => any)[] | undefined }
 
 interface EventEmitterIntf {
   events: Events
@@ -91,7 +91,7 @@ class EventEmitter implements EventEmitterIntf {
     if (!this.events[name]) {
       this.events[name] = []
     }
-    this.events[name].push(fn)
+    this.events[name]!.push(fn)
   }
   off(name: string, fn?: () => any) {
     if (!this.events[name]) {
@@ -101,18 +101,18 @@ class EventEmitter implements EventEmitterIntf {
       this.events[name] = undefined
       return
     }
-    const index = this.events[name].indexOf(fn)
-    this.events[name].splice(index, 1)
+    const index = this.events[name]!.indexOf(fn)
+    this.events[name]!.splice(index, 1)
   }
   emit(name: string) {
     if (!this.events[name]) {
       return
     }
-    this.events[name].forEach(fn => fn())
+    this.events[name]!.forEach(fn => fn())
   }
   once(name: string, fn: () => any) {
-    const _fn = (...args) => {
-      fn.apply(this, args)
+    const _fn = (...args: any[]) => {
+      fn.apply<this, typeof args, any>(this, args)
       this.off(name)
     }
     this.on(name, _fn)

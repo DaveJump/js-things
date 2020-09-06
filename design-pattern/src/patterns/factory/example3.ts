@@ -2,8 +2,19 @@
  * Factory pattern
  */
 
-const restaurant = (function() {
-  const menu = [
+interface Menu {
+  no: string
+  name: string
+  price: number
+}
+
+interface Material {
+  no: string
+  list: string[]
+}
+
+const Restaurant = (function() {
+  const menu: Menu[] = [
     {
       no: '#001',
       name: 'Kung Pao Chicken',
@@ -16,7 +27,7 @@ const restaurant = (function() {
     }
   ]
 
-  const material = [
+  const material: Material[] = [
     {
       no: '#001',
       list: ['chicken', 'pepper', 'garlic', 'peanut-oil']
@@ -28,9 +39,12 @@ const restaurant = (function() {
   ]
 
   class Food {
-    constructor(food) {
-      const kitchener = new Kitchener(food)
-      const foodInfo = kitchener.cook(kitchener.getMaterial(food))
+    quantityOfHeat!: number
+    taste!: string
+
+    constructor(foodNo: Menu['no']) {
+      const kitchener = new Kitchener(foodNo)
+      const foodInfo = kitchener.cook(kitchener.getMaterial(foodNo))
       const { quantityOfHeat, taste } = foodInfo
 
       this.quantityOfHeat = quantityOfHeat
@@ -39,14 +53,14 @@ const restaurant = (function() {
   }
 
   class Kitchener {
-    constructor(food) {
-      this.cook(this.getMaterial(food))
+    constructor(materialNo: Material['no']) {
+      this.cook(this.getMaterial(materialNo))
     }
-    getMaterial(food) {
-      const mat = material.find(m => m.no === food)
+    getMaterial(materialNo: Material['no']) {
+      const mat = material.find(m => m.no === materialNo)
       return mat ? mat.list : []
     }
-    cook(materialList) {
+    cook(materialList: Material['list']) {
       // ...process
       const quantityOfHeat = materialList.includes('beef') ? 700 : 200
       const taste = materialList.includes('pepper') ? 'spicy' : 'salty'
@@ -58,10 +72,10 @@ const restaurant = (function() {
   }
 
   // Wrap the constructor to outside
-  function orderForAFood(food) {
+  function orderForAFood(foodNo: Menu['no']): Promise<Food> {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(new Food(food))
+        resolve(new Food(foodNo))
       }, 2000)
     })
   }
@@ -75,7 +89,7 @@ const restaurant = (function() {
 /**
  * Usage: customer instance
  */
-const { menu, orderForAFood } = restaurant
+const { menu, orderForAFood } = Restaurant
 // customer get menu list
 console.log(menu)
 // order for a food then eat it

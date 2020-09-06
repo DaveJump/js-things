@@ -1,47 +1,83 @@
-/**
- * Decorator pattern
- */
-
-function readonly(target, name, descriptor) {
-  descriptor.writable = false
-  return descriptor
+interface Knowledge {
+  [name: string]: any
 }
 
-function dressed(target, name, descriptor) {
-  const beforeDressing = descriptor.value
-  descriptor.value = function(...args) {
-    beforeDressing.apply(this, args)
-    console.log('I am dressing...')
-    console.log('I am ready to go.')
-    return {
-      lazy: false,
-      goodSmell: true
+interface Book {
+  [index: string]: any
+}
+
+interface IStudent {
+  knowledge: Knowledge
+  readBook(bookIndex: string): void
+}
+
+const book: Book = {
+  '0': 'prologue',
+  '1': 'chapter-one',
+  '2': 'chapter-two'
+}
+
+// Insert tag after reading
+function insertTag<T extends Student2>(tag: string) {
+  return function(target: T, propertyKey: string, descriptor: PropertyDescriptor) {
+    const method = descriptor.value
+    descriptor.value = function(this: T, bookIndex: string) {
+      method.call(this, bookIndex)
+      this.knowledge[`tag-${bookIndex}`] = tag
     }
   }
-  return descriptor
 }
 
-class Person2 {
-  readonly firstName: string
-  readonly lastName: string
-  constructor(firstName: string, lastName: string) {
-    this.firstName = firstName
-    this.lastName = lastName
-  }
-
-  @readonly
-  name() {
-    return `${this.firstName} ${this.lastName}`
-  }
-
-  @dressed
-  goOutside(body) {
-    console.log('I am washing...')
-    return body
+function validateId<T extends Student2>(target: T, propertyKey: string, descriptor: PropertyDescriptor) {
+  const setter = descriptor.set
+  descriptor.set = function(this: T, id: string) {
+    if (id.length > 10) {
+      throw new Error('The Id cannot be longer than 10 characters')
+    }
+    setter?.call(this, id)
   }
 }
 
-const Dave2 = new Person2('Lee', 'Dave')
-// Dave2.name = function() {return ''} // error, the property "name" of Dave2 is readonly
-const body = Dave2.goOutside({ lazy: true })
-console.log(body) // { lazy: false, goodSmell: true }
+function comment(com: string, len: number) {
+  return function(target: any, propertyKey: string) {
+    target[propertyKey] = new Array(len).fill(com)
+  }
+}
+
+function logParam(target: any, propertyKey: string, paramValue: any) {
+  console.log(target)
+  console.log(propertyKey)
+  console.log(paramValue)
+}
+
+class Student2 implements IStudent {
+  /**
+   * 注意在使用属性装饰器时如果不初始化值，则得不到 ownPeroperty，
+   * 但装饰器会在 prototype 对象上注入，因为此时的 target 为原型对象
+   */
+  @comment('--hei--', 3)
+  interests!: string[]
+
+  constructor(
+    public knowledge: Knowledge,
+    private identity: string
+  ) {}
+
+  get _id() {
+    return this.identity
+  }
+
+  @validateId
+  set _id(id: string) {
+    this.identity = id
+  }
+
+  @insertTag('read')
+  readBook(@logParam bookIndex: string) {
+    this.knowledge[bookIndex] = book[bookIndex]
+  }
+}
+
+const student = new Student2({}, 'sid-001')
+student.readBook('0')
+console.log(student.knowledge)
