@@ -1,4 +1,4 @@
-Function.prototype.bind = function(context, ...args1) {
+Function.prototype.mybind = function(context, ...args1) {
   if (typeof this !== 'function') {
     throw new Error('not a function')
   }
