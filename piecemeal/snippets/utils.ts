@@ -6,11 +6,10 @@ function capitalize(str: string) {
   if (!str.length) {
     return str
   }
-  return str.replace(/^(\w{1})/, function(str, g1) {
+  return str.replace(/^(\w{1})/, function (str, g1) {
     return g1.toUpperCase()
   })
 }
-
 
 /**
  * Merge objects deeply
@@ -19,6 +18,7 @@ function capitalize(str: string) {
  */
 function deepMerge(...objs: any[]): any {
   const results = Object.create(null)
+
   objs.forEach(obj => {
     if (obj) {
       Object.keys(obj).forEach(key => {
@@ -38,7 +38,6 @@ function deepMerge(...objs: any[]): any {
   return results
 }
 
-
 /**
  * Generate unique-id by passing output length
  * @param length output length
@@ -51,7 +50,6 @@ function genUID(length = 13): string {
   return (~~(Math.random() * 36)).toString(36) + genUID(length - 1)
 }
 
-
 /**
  * Get type finely
  * @param val
@@ -62,9 +60,11 @@ function checkType(val: unknown): string {
   if (typeof val !== 'object') {
     return capitalize(typeof val)
   }
+
   // return object types
   let str = Object.prototype.toString.call(val) as string
   let type = str.match(/\[object\s(\w+)\]/i)?.[1] || ''
+
   return type
 }
 checkType(2) // "Number"
@@ -74,19 +74,19 @@ checkType(null) // "Null"
 checkType(undefined) // "Undefined"
 checkType([]) // "Array"
 checkType({}) // "Object"
-checkType(function(){}) // "Function"
+checkType(function () {}) // "Function"
 checkType(new RegExp('')) // "RegExp"
 checkType(new Date()) // "Date"
 checkType(Math) // "Math"
 checkType(new FormData()) // "FormData"
 
-
 /**
  * Cut a string by passing length
  */
-String.prototype.cutstr = function(len) {
+String.prototype.cutstr = function (len) {
   let restr = this.toString()
   const wlength = this.replace(/[^\x00-\xff]/g, '**').length
+
   if (wlength > len) {
     for (let k = len / 2; k < this.length; k++) {
       if (this.substr(0, k).replace(/[^\x00-\xff]/g, '**').length >= len) {
@@ -101,14 +101,14 @@ interface String {
   cutstr(len: number): string
 }
 
-
 /**
  * 柯里化
  * @param func 待转换函数
  */
- function curry(func: Function) {
+function curry(func: Function) {
   return function curried(this: any, ...args: any[]) {
-    if (args.length >= func.length) { // 通过函数的length属性，来获取函数的形参个数
+    if (args.length >= func.length) {
+      // 通过函数的length属性，来获取函数的形参个数
       return func.apply(this, args)
     } else {
       return function (this: any, ...args2: any[]) {

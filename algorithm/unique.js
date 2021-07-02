@@ -11,7 +11,7 @@ Array.prototype.unique = function() {
   if (!this.length) {
     return this
   }
-  var newArr = new Set(this)
+  let newArr = new Set(this)
   return Array.from(newArr)
 }
 
