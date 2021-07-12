@@ -95,3 +95,107 @@ Function.prototype._bind = function (context) {
 
   return fBound
 }
+
+const PENDING = 'pending'
+const RESOLVED = 'resolved'
+const REJECTED = 'rejected'
+
+/**
+ * Promise (es5, simple)
+ * @param {*} fn
+ */
+function _Promise(fn) {
+  // Save the initializal state
+  var self = this
+
+  // Initial state
+  this.state = PENDING
+
+  // Used to save the value passed in resolve or rejected
+  this.value = null
+
+  // Callback function used to save resolve
+  this.resolvedCallbacks = []
+
+  // Callback function for saving reject
+  this.rejectedCallbacks = []
+
+  function resolve(value) {
+    // Determine whether the incoming element is a Promise value, if it is, the state change must wait for the previous state to change before making the change
+    if (value instanceof MyPromise) {
+      return value.then(resolve, reject)
+    }
+
+    // Ensure that the code execution sequence is at the end of this round of event loop
+    setTimeout(() => {
+      // It can only be changed when the state is pending
+      if (self.state === PENDING) {
+        // Change the state to 'RESOLVED'
+        self.state = RESOLVED
+
+        self.value = value
+
+        // Execute callback functions
+        self.resolvedCallbacks.forEach(callback => {
+          callback(value)
+        })
+      }
+    }, 0)
+  }
+
+  function reject(value) {
+    setTimeout(() => {
+      if (self.state === PENDING) {
+        // Change the state to 'REJECTED'
+        self.state = REJECTED
+
+        self.value = value
+
+        self.rejectedCallbacks.forEach(callback => {
+          callback(value)
+        })
+      }
+    }, 0)
+  }
+
+  // Pass the two methods into the function to execute
+  try {
+    fn(resolve, reject)
+  } catch (e) {
+    // When an error is encountered, catch the error and execute the reject function
+    reject(e)
+  }
+}
+
+_Promise.prototype.then = function (onResolved, onRejected) {
+  // First determine whether the two parameters are function types cause these two parameters are optional
+  onResolved =
+    typeof onResolved === 'function'
+      ? onResolved
+      : function (value) {
+          return value
+        }
+
+  onRejected =
+    typeof onRejected === 'function'
+      ? onRejected
+      : function (error) {
+          throw error
+        }
+
+  // If the state is 'PENDING', add the function to the corresponding list
+  if (this.state === PENDING) {
+    this.resolvedCallbacks.push(onResolved)
+    this.rejectedCallbacks.push(onRejected)
+  }
+
+  // If the state has been frozen, directly execute the function of the corresponding state
+
+  if (this.state === RESOLVED) {
+    onResolved(this.value)
+  }
+
+  if (this.state === REJECTED) {
+    onRejected(this.value)
+  }
+}
