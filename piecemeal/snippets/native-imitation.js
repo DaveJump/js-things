@@ -122,7 +122,7 @@ function _Promise(fn) {
 
   function resolve(value) {
     // Determine whether the incoming element is a Promise value, if it is, the state change must wait for the previous state to change before making the change
-    if (value instanceof MyPromise) {
+    if (value instanceof _Promise) {
       return value.then(resolve, reject)
     }
 
