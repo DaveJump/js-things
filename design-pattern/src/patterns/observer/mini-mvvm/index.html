@@ -6,33 +6,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      #text {
+      [ref='text'] {
         margin-top: 10px;
+        min-height: 22px;
+      }
+      div {
+        margin-top: 20px;
       }
     </style>
   </head>
   <body>
-    <input type="text" id="input" />
-    <div id="text"></div>
-
     <script src="./vm.js"></script>
     <script>
-      const div = document.getElementById('text')
+      const { textNodes, inputNodes } = createStructure()
 
-      const vm = new VM({
-        data: {
-          text: ''
+      const data = {
+        hello: '',
+        world: ''
+      }
+
+      const vm = new VM({ data })
+
+      Object.keys(data).forEach((key, i) => {
+        vm.$watch(key, val => {
+          console.log(`${key} changed: ` + val)
+          textNodes[i].innerHTML = val
+        })
+        inputNodes[i].addEventListener('input', e => {
+          vm[key] = e.target.value
+        })
+      })
+
+      function createStructure(rounds = 2) {
+        const wrapNodes = []
+        const textNodes = []
+        const inputNodes = []
+
+        for (let i = 0; i < rounds; i++) {
+          const textNode = document.createElement('div')
+          textNode.setAttribute('id', 'text' + (i + 1))
+          textNodes.push(textNode)
+
+          const inputNode = document.createElement('input')
+          inputNode.setAttribute('id', 'input' + (i + 1))
+          inputNodes.push(inputNode)
+
+          const wrapNode = document.createElement('div')
+          wrapNode.prepend(textNode)
+          wrapNode.prepend(inputNode)
+          wrapNodes.push(wrapNode)
         }
-      })
-      vm.$watch('text', val => {
-        console.log('text changed: ' + val)
-        div.innerHTML = val
-      })
 
-      const input = document.getElementById('input')
-      input.addEventListener('input', e => {
-        vm.text = e.target.value
-      })
+        textNodes.forEach(tn => {
+          tn.setAttribute('ref', 'text')
+        })
+
+        wrapNodes.forEach(wn => {
+          document.body.appendChild(wn)
+        })
+
+        return {
+          textNodes,
+          inputNodes
+        }
+      }
     </script>
   </body>
 </html>

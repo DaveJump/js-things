@@ -27,6 +27,7 @@
   class Observer {
     constructor(value) {
       this.value = value
+      this.dep = new Dep()
       this.walk(this.value)
     }
     walk(value) {
@@ -36,11 +37,11 @@
       })
     }
     convert(key, val) {
-      defineReactive(this.value, key, val)
+      defineReactive(this.value, key, val, this.dep)
     }
   }
-  function defineReactive(obj, key, val) {
-    const dep = new Dep()
+  function defineReactive(obj, key, val, dep) {
+    dep = dep || new Dep()
     Object.defineProperty(obj, key, {
       enumerable: true,
       configurable: true,
@@ -73,18 +74,20 @@
       this.vm = vm
       this.watchProp = prop
       this.callback = cb
+      Dep.target = this
       // 获取更新前的值
       this.value = this.get()
     }
+    // deps 列表
     static deps = {}
     // 添加对应管理员 dep
     addDep(dep) {
       let depId = dep.id
       // 判断 depId 避免重复添加，一个管理员(dep)管理一批订阅者(watcher)
       if (!Watcher.deps.hasOwnProperty(depId)) {
-        dep.addSub(this)
         Watcher.deps[depId] = dep
       }
+      dep.addSub(this)
     }
     // 对外暴露的接口，用于在订阅的数据被更新时，由订阅者管理员(Dep)调用
     update() {
@@ -98,12 +101,10 @@
       }
     }
     get() {
-      // 当前订阅者(Watcher)读取被订阅数据的最新更新后的值时，通知订阅者管理员收集当前订阅者
-      Dep.target = this
       // 此处触发已被 observe 属性的 getter
       let value = this.vm._data[this.watchProp]
       // 清空当前 dep target（watcher）
-      Dep.target = null
+      Dep.target && (Dep.target = null)
       return value
     }
   }
@@ -137,5 +138,6 @@
   }
 
   globalThis['VM'] = VM
+  globalThis['Watcher'] = Watcher
   return VM
 })(window)
