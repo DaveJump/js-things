@@ -1,0 +1,328 @@
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: normal;
+}
+
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+.mb-10 {
+  margin-bottom: 10px;
+}
+.mt-40 {
+  margin-top: 40px;
+}
+.mb-40 {
+  margin-bottom: 40px;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.btn-primary {
+  background-color: rgb(39, 107, 196);
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: rgb(66, 121, 194);
+}
+
+.input-primary {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  outline: none;
+}
+.input-primary:focus,
+.input-primary:focus-visible,
+.input-primary:hover {
+  border: 1px solid rgb(39, 107, 196);
+}
+
+.bg {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.bg.bgc-main {
+  background: rgb(105, 155, 200);
+  background: -moz-radial-gradient(
+    top left,
+    ellipse cover,
+    rgba(105, 155, 200, 1) 0%,
+    rgba(181, 197, 216, 1) 57%
+  );
+  background: -webkit-gradient(
+    radial,
+    top left,
+    0px,
+    top left,
+    100%,
+    color-stop(0%, rgba(105, 155, 200, 1)),
+    color-stop(57%, rgba(181, 197, 216, 1))
+  );
+  background: -webkit-radial-gradient(
+    top left,
+    ellipse cover,
+    rgba(105, 155, 200, 1) 0%,
+    rgba(181, 197, 216, 1) 57%
+  );
+  background: -o-radial-gradient(
+    top left,
+    ellipse cover,
+    rgba(105, 155, 200, 1) 0%,
+    rgba(181, 197, 216, 1) 57%
+  );
+  background: -ms-radial-gradient(
+    top left,
+    ellipse cover,
+    rgba(105, 155, 200, 1) 0%,
+    rgba(181, 197, 216, 1) 57%
+  );
+  background: radial-gradient(
+    ellipse at top left,
+    rgba(105, 155, 200, 1) 0%,
+    rgba(181, 197, 216, 1) 57%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#699bc8', endColorstr='#b5c5d8',GradientType=1 );
+}
+
+.chat-main {
+  width: 850px;
+  height: 630px;
+  background-color: #fff;
+  border-radius: 6px;
+  margin: 0 auto;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+  color: #333;
+}
+
+.chat-login {
+  padding: 30px 60px;
+  height: 100%;
+}
+.chat-login input {
+  width: 100%;
+}
+
+.chat-login__login-btn {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+}
+.chat-login__login-btn button {
+  width: 30%;
+  margin: 0 auto;
+  display: block;
+}
+
+.chat-room {
+  display: flex;
+  height: 100%;
+}
+
+.chat-room__portrait-list ul {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.chat-room__portrait-list li,
+.chat-room__user-list dl dt,
+.msg-block-base .portrait {
+  width: 65px;
+  height: 65px;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #e2e2e2;
+}
+.chat-room__portrait-list li:hover,
+.chat-room__portrait-list li.selected {
+  border-color: rgb(39, 107, 196);
+  box-shadow: 0 0 2px rgb(39, 107, 196);
+}
+
+.chat-room__portrait-list li img,
+.chat-room__user-list dl dt img,
+.msg-block-base .portrait img {
+  width: 100%;
+}
+
+#user-list {
+  flex: 1 1;
+  overflow: auto;
+  padding-bottom: 10px;
+}
+.chat-room__user-list {
+  padding-left: 15px;
+  position: relative;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e2e2e2;
+}
+.chat-room__user-list h3 {
+  height: 26px;
+}
+.chat-room__user-list dl {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-right: 0;
+  margin: 2px 0;
+  border-radius: 4px;
+  position: relative;
+}
+.chat-room__user-list dl .own-mark {
+  position: absolute;
+  right: 8px;
+  font-size: 12px;
+  color: #999;
+}
+.chat-room__user-list dl:hover {
+  background-color: rgb(243, 243, 243);
+}
+.chat-room__user-list dl dt,
+.msg-block-base .portrait {
+  width: 45px;
+  height: 45px;
+}
+.chat-room__user-list dl dd {
+  margin-left: 15px;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.chat-room__user-list .user-item {
+  margin-right: 10px;
+}
+.chat-room__user-list .user-item + .user-item {
+  border-top: 1px solid #f2f2f2;
+}
+
+.chat-room__msg {
+  flex: 1 1;
+  display: flex;
+  flex-direction: column;
+}
+.chat-room__msg-box {
+  height: 80%;
+  overflow: auto;
+}
+.chat-room__msg-mlp {
+  height: 20%;
+  border-top: 1px solid #e2e2e2;
+  position: relative;
+}
+.chat-room__msg-mlp #msg-input {
+  border: none;
+  outline: none;
+  padding: 8px 10px;
+  font-size: 14px;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border-bottom-right-radius: 6px;
+}
+.chat-room__msg-box .tip {
+  text-align: center;
+  margin: 0 auto;
+  color: #999;
+  font-size: 12px;
+  margin: 15px;
+}
+
+.msg-block-base {
+  margin: 10px 0;
+  padding: 0 10px;
+  position: relative;
+  overflow: hidden;
+}
+.msg-block-base .nick-name {
+  color: #666;
+  font-size: 14px;
+}
+.msg-block-base .msg {
+  margin-top: 2px;
+  border-radius: 6px;
+  position: relative;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+.msg-block-base .info {
+  margin: 0 10px;
+  max-width: 80%;
+}
+.msg-block-base .msg::after {
+  content: '';
+  position: absolute;
+  border-width: 5px;
+  border-style: solid;
+  display: block;
+  top: 12px;
+  border-top-color: transparent;
+  border-right-color: transparent;
+}
+.msg-block-base.incoming-msg .msg {
+  background-color: #dbdbdb;
+}
+.msg-block-base.incoming-msg .msg::after {
+  left: -3px;
+  border-bottom-color: #dbdbdb;
+  border-left-color: #dbdbdb;
+  transform: rotateZ(45deg);
+}
+.msg-block-base.incoming-msg .portrait ,
+.msg-block-base.incoming-msg .info {
+  float: left;
+}
+.msg-block-base.own-msg .portrait ,
+.msg-block-base.own-msg .info {
+  float: right;
+}
+.msg-block-base.own-msg .info .nick-name {
+  text-align: right;
+}
+.msg-block-base.own-msg .msg {
+  background-color: rgb(39, 107, 196);
+  color: #fff;
+}
+.msg-block-base.own-msg .msg::after {
+  right: -3px;
+  border-bottom-color: rgb(39, 107, 196);
+  border-left-color: rgb(39, 107, 196);
+  transform: rotateZ(225deg);
+}

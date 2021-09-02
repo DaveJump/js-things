@@ -1,0 +1,13 @@
+{
+  "name": "js-things",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:DaveJump/js-things.git",
+  "author": "DaveJump <983136557@qq.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "./design-pattern",
+    "./node/websocket"
+  ]
+}

@@ -5,6 +5,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "allowJs": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -12,10 +13,6 @@
     "outDir": "dist",
     "baseUrl": "."
   },
-  "include": [
-    "**/*.ts"
-, "piecemeal/snippets/native-imitation.js"  ],
-  "exclude": [
-    "**/node_modules"
-  ]
+  "include": ["**/*.ts"],
+  "exclude": ["**/node_modules"]
 }

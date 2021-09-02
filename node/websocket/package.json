@@ -1,0 +1,23 @@
+{
+  "name": "websocket",
+  "version": "1.0.0",
+  "description": "A chat room demo",
+  "main": "index.js",
+  "author": "DaveJump",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --config nodemon.json",
+    "start:debug": "nodemon --config nodemon.json --inspect-brk"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "socket.io": "^4.2.0",
+    "ts-node": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^14.14.7",
+    "nodemon": "^2.0.7"
+  }
+}
