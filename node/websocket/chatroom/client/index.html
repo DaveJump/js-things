@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatRoom</title>
+    <link rel="stylesheet" href="./styles/app.css" />
+    <link rel="stylesheet" href="./styles/normalize.css" />
+  </head>
+  <body>
+    <div class="bg bgc-main">
+      <div class="chat-main">
+        <div id="chat-login" class="chat-login ">
+          <div class="chat-login__nick-name">
+            <h4>请输入昵称</h4>
+            <input
+              type="text"
+              id="nick-name-input"
+              class="chat-login__nick-name-input input-primary"
+            />
+          </div>
+          <div class="chat-login__portrait mt-40">
+            <h4>请选择头像</h4>
+            <div id="portrait-list" class="chat-room__portrait-list">
+              <ul>
+                <li><img src="./imgs/1.jpg" alt="" /></li>
+                <li><img src="./imgs/2.jpg" alt="" /></li>
+                <li><img src="./imgs/3.jpg" alt="" /></li>
+                <li><img src="./imgs/4.jpg" alt="" /></li>
+                <li><img src="./imgs/5.jpg" alt="" /></li>
+                <li><img src="./imgs/6.png" alt="" /></li>
+                <li><img src="./imgs/7.jpg" alt="" /></li>
+                <li><img src="./imgs/8.jpg" alt="" /></li>
+                <li><img src="./imgs/9.jpg" alt="" /></li>
+              </ul>
+            </div>
+          </div>
+          <div class="chat-login__login-btn">
+            <button id="login-btn" class="btn-primary">加入聊天</button>
+          </div>
+        </div>
+        <div id="chat-room" class="chat-room hidden">
+          <div class="chat-room__user-list">
+            <div class="chat-user-header chat-header-base">
+              <input
+                id="search-user"
+                type="text"
+                class="user-search-input input-primary"
+                placeholder="搜索用户"
+              />
+            </div>
+            <div id="user-list" class="user-list-content">
+              <!-- <div class="user-item">
+                <dl>
+                  <dt>
+                    <span class="user-item-avatar">
+                      <img src="./imgs/1.jpg" alt="" />
+                    </span>
+                    <span class="count-tip">10</span>
+                  </dt>
+                  <dd>DaveJump</dd>
+                </dl>
+              </div>
+              <div class="user-item">
+                <dl>
+                  <dt>
+                    <span class="user-item-avatar">
+                      <img src="./imgs/4.jpg" alt="" />
+                    </span>
+                    <span class="count-tip">7</span>
+                  </dt>
+                  <dd>Tracy</dd>
+                </dl>
+              </div> -->
+            </div>
+          </div>
+          <div id="chat-room-msg" class="chat-room__msg">
+            <div id="msg-box-wrap" class="chat-room__msg-box">
+              <h3 class="chat-header-base">群聊(请文明发言)</h3>
+              <div id="msg-box" class="msg-box-content">
+                <!-- <div class="tip">DaveJump 加入聊天</div>
+                <div class="msg-block-base incoming-msg">
+                  <div class="portrait">
+                    <img src="./imgs/1.jpg" alt="" />
+                  </div>
+                  <div class="info">
+                    <div class="nick-name">DaveJump</div>
+                    <div class="msg">来肝啊！</div>
+                  </div>
+                </div>
+                <div class="msg-block-base own-msg">
+                  <div class="portrait">
+                    <img src="./imgs/2.jpg" alt="" />
+                  </div>
+                  <div class="info">
+                    <div class="nick-name">Tracy</div>
+                    <div class="msg">好呀!</div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div id="private-msg-box-wrap" class="chat-room__msg-box hidden">
+              <div class="chat-header-base flex flex-ic flex-jb">
+                <h3 id="private-msg-box-nickname" style="margin: 0">
+                  DaveJump
+                </h3>
+                <div id="back-to-public" class="back-to-public">
+                  <img src="./imgs/close.png" alt="" />
+                </div>
+              </div>
+              <div id="private-msg-box" class="msg-box-content"></div>
+            </div>
+            <div class="chat-room__msg-mlp">
+              <textarea
+                name="msg-input"
+                id="msg-input"
+                class="chat-room__msg-input"
+                placeholder="按 Enter 发送消息"
+              ></textarea>
+              <!-- <button id="send-msg-btn" class="chat-room__send-msg-btn"></button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

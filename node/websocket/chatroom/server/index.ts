@@ -12,14 +12,25 @@ class User {
   constructor() {}
 }
 
+class Message {
+  from!: User
+  content!: any
+  to?: User
+
+  constructor(from: User, content: any, to?: User) {
+    this.from = from
+    this.content = content
+    this.to = to
+  }
+}
+
 class ChatServer {
   public static readonly PORT: number = 8020
   private io!: SocketIO.Server
   private app!: express.Application
   private server!: http.Server
   private port!: string | number
-  // @ts-ignore
-  private userList!: User[] = []
+  private userList: User[] = []
 
   constructor() {
     this.createApp()
@@ -32,7 +43,7 @@ class ChatServer {
   private createApp() {
     this.app = express()
     this.app.use(cors())
-    this.app.use(express.static(path.join(__dirname, 'public')))
+    this.app.use(express.static(path.join(__dirname, '../client')))
   }
   private createServer() {
     this.server = http.createServer(this.app)
@@ -67,8 +78,24 @@ class ChatServer {
         this.io.emit('users', this.userList)
       })
 
-      socket.on('message', data => {
-        this.io.emit('message', data)
+      
+      socket.on('message', (m: Message) => {
+        const payload = { from: m.from, content: m.content }
+        
+        if (m.to) {
+          // 私聊
+          const id = m.to?.id
+          const sk = id && this.io.sockets.sockets.get(id)
+          if (sk) {
+            // 指定 socket 发送
+            sk.emit('privateMessage', payload)
+            // 回传给发送端
+            socket.emit('privateMessage', payload)
+          }
+        } else {
+          // 群聊
+          this.io.emit('message', payload)
+        }
       })
 
       socket.on('disconnect', () => {
@@ -84,6 +111,9 @@ class ChatServer {
         }
       })
     })
+  }
+  transmitMessage(socket: SocketIO.Socket | SocketIO.Server, message: Message, event: string = 'message') {
+    return socket.emit(event, message)
   }
 
   public getApp() {
