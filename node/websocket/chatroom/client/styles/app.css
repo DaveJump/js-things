@@ -78,20 +78,20 @@ li {
 }
 
 :root[color-mode='light'] img[ref='close-header-dark'],
-:root[color-mode='dark'] img[ref='dark-icon'] {
+:root[color-mode='dark'] img[ref='light-icon'] {
   display: none;
 }
 :root[color-mode='light'] img[ref='close-header'],
-:root[color-mode='dark'] img[ref='light-icon'] {
+:root[color-mode='dark'] img[ref='dark-icon'] {
   display: inline-block;
 }
 
 :root[color-mode='dark'] img[ref='close-header-dark'],
-:root[color-mode='light'] img[ref='dark-icon']  {
+:root[color-mode='light'] img[ref='light-icon']  {
   display: inline-block;
 }
 :root[color-mode='dark'] img[ref='close-header'],
-:root[color-mode='light'] img[ref='light-icon']  {
+:root[color-mode='light'] img[ref='dark-icon']  {
   display: none;
 }
 
