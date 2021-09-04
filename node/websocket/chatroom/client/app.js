@@ -31,8 +31,45 @@
           timer = null
         }, timeout)
       }
+    },
+    toggleColorMode() {
+      const colorModeBtn = document.getElementById('color-mode-btn')
+      const root = document.querySelector('html')
+      const container = document.getElementById('container')
+
+      function setColorMode(colorMode) {
+        root.setAttribute('color-mode', colorMode)
+        
+        switch (colorMode) {
+          case 'light':
+            container.classList.remove('bgc-dark')
+            container.classList.add('bgc-light')
+            break
+          case 'dark':
+            container.classList.add('bgc-dark')
+            container.classList.remove('bgc-light')
+            break
+        }
+
+        localStorage.setItem('color-mode', colorMode)
+      }
+      
+      setColorMode(localStorage.getItem('color-mode') || 'light')
+
+      colorModeBtn.addEventListener('click', () => {
+        const colorMode = localStorage.getItem('color-mode')
+        setColorMode(colorMode === 'light' ? 'dark' : 'light')
+      })
+
+      Promise.resolve().then(() => {
+        // 防止闪屏
+        container.classList.remove('hidden')
+      })
     }
   }
+
+  util.toggleColorMode()
+
   class User {
     constructor(info) {
       this.setInfo(info)

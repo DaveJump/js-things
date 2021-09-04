@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" color-mode='light'>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="./styles/normalize.css" />
   </head>
   <body>
-    <div class="bg bgc-main">
+    <div class="bg bgc-light hidden" id="container">
+      <div id="color-mode-btn" class="color-mode-btn">
+        <img ref="light-icon" src="./imgs/light.png" alt="">
+        <img ref="dark-icon" src="./imgs/dark.png" alt="">
+      </div>
       <div class="chat-main">
         <div id="chat-login" class="chat-login ">
           <div class="chat-login__nick-name">
@@ -18,6 +22,7 @@
               type="text"
               id="nick-name-input"
               class="chat-login__nick-name-input input-primary"
+              autocomplete="off"
             />
           </div>
           <div class="chat-login__portrait mt-40">
@@ -29,7 +34,7 @@
                 <li><img src="./imgs/3.jpg" alt="" /></li>
                 <li><img src="./imgs/4.jpg" alt="" /></li>
                 <li><img src="./imgs/5.jpg" alt="" /></li>
-                <li><img src="./imgs/6.png" alt="" /></li>
+                <li><img src="./imgs/6.jpg" alt="" /></li>
                 <li><img src="./imgs/7.jpg" alt="" /></li>
                 <li><img src="./imgs/8.jpg" alt="" /></li>
                 <li><img src="./imgs/9.jpg" alt="" /></li>
@@ -48,6 +53,7 @@
                 type="text"
                 class="user-search-input input-primary"
                 placeholder="搜索用户"
+                autocomplete="off"
               />
             </div>
             <div id="user-list" class="user-list-content">
@@ -106,7 +112,8 @@
                   DaveJump
                 </h3>
                 <div id="back-to-public" class="back-to-public">
-                  <img src="./imgs/close.png" alt="" />
+                  <img src="./imgs/close.png" alt="" ref="close-header" />
+                  <img src="./imgs/close-dark.png" alt="" ref="close-header-dark" />
                 </div>
               </div>
               <div id="private-msg-box" class="msg-box-content"></div>

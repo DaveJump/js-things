@@ -48,35 +48,116 @@ li {
   display: none !important;
 }
 
+:root[color-mode='light'] {
+  --color-primary: rgb(39, 107, 196);
+  --color-primary-hover: rgb(66, 121, 194);
+  --text-color-primary: #fff;
+  --text-color-secondary: #333;
+  --text-color-gray: #b3b3b3;
+  --border-color-primary: #ccc;
+  --border-color-secondary: rgb(235, 235, 235);
+  --bg-color-primary: #fff;
+  --bg-color-gray: #f0f0f0;
+  --bg-color-gray-enhance: #d9d9d9;
+  --input-bg-color-primary: #fff;
+  --input-placeholder-color: #bebebe;
+}
+:root[color-mode='dark'] {
+  --color-primary: rgb(39, 107, 196);
+  --color-primary-hover: rgb(66, 121, 194);
+  --text-color-primary: #fff;
+  --text-color-secondary: #eeeeee;
+  --text-color-gray: #6f6f6f;
+  --border-color-primary: #494949;
+  --border-color-secondary: #2b2b2b;
+  --bg-color-primary: rgb(32, 32, 32);
+  --bg-color-gray: #282828;
+  --bg-color-gray-enhance: #484848;
+  --input-bg-color-primary: rgb(56 56 56 / 48%);
+  --input-placeholder-color: #535353;
+}
+
+:root[color-mode='light'] img[ref='close-header-dark'],
+:root[color-mode='dark'] img[ref='dark-icon'] {
+  display: none;
+}
+:root[color-mode='light'] img[ref='close-header'],
+:root[color-mode='dark'] img[ref='light-icon'] {
+  display: inline-block;
+}
+
+:root[color-mode='dark'] img[ref='close-header-dark'],
+:root[color-mode='light'] img[ref='dark-icon']  {
+  display: inline-block;
+}
+:root[color-mode='dark'] img[ref='close-header'],
+:root[color-mode='light'] img[ref='light-icon']  {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background-color: var(--bg-color-gray);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--bg-color-gray-enhance);
+  border-radius: 6px;
+}
+
+.color-mode-btn {
+  position: absolute;
+  cursor: pointer;
+  top: 30px;
+  left: 40px;
+  width: 30px;
+  height: 30px;
+}
+.color-mode-btn img {
+  width: 100%;
+  height: 100%;
+}
+
 .btn-primary {
-  background-color: rgb(39, 107, 196);
+  background-color: var(--color-primary);
   border: none;
   border-radius: 6px;
   padding: 8px;
-  color: #fff;
+  color: var(--text-color-primary);
 }
 .btn-primary:hover {
-  background-color: rgb(66, 121, 194);
+  background-color: var(--color-primary-hover);
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: #b4b4b4;
+  color: var(--input-placeholder-color);
+}
+
+textarea {
+  caret-color: var(--text-color-secondary);
+  color: var(--text-color-secondary);
 }
 
 .input-primary {
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color-primary);
   border-radius: 6px;
   padding: 5px 10px;
+  caret-color: var(--color-primary);
   box-sizing: border-box;
   outline: none;
   width: 100%;
-  caret-color: rgb(39, 107, 196);
+  background-color: var(--bg-color-primary);
+  color: var(--text-color-secondary);
 }
 .input-primary:focus,
 .input-primary:focus-visible,
 .input-primary:hover {
-  border: 1px solid rgb(39, 107, 196);
+  border: 1px solid var(--color-primary);
+}
+.input-primary:focus {
+  background-color: var(--bg-color-primary);
 }
 
 .bg {
@@ -85,8 +166,9 @@ textarea::placeholder {
   overflow: hidden;
   display: flex;
   align-items: center;
+  position: relative;
 }
-.bg.bgc-main {
+.bg.bgc-light {
   background: rgb(105, 155, 200);
   background: -moz-radial-gradient(
     top left,
@@ -128,16 +210,38 @@ textarea::placeholder {
   );
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#699bc8', endColorstr='#b5c5d8',GradientType=1 );
 }
+.bg.bgc-dark {
+  background: #000000;
+  background-image: -webkit-radial-gradient(
+    top,
+    circle cover,
+    #2d2d2d 0%,
+    #272727 80%
+  );
+  background-image: -moz-radial-gradient(
+    top,
+    circle cover,
+    #2d2d2d 0%,
+    #272727 80%
+  );
+  background-image: -o-radial-gradient(
+    top,
+    circle cover,
+    #2d2d2d 0%,
+    #272727 80%
+  );
+  background-image: radial-gradient(top, circle cover, #2d2d2d 0%, #272727 80%);
+}
 
 .chat-main {
   width: 850px;
   height: 650px;
-  background-color: #fff;
+  background-color: var(--bg-color-primary);
   border-radius: 6px;
   margin: 0 auto;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.3);
   position: relative;
-  color: #333;
+  color: var(--text-color-secondary);
 }
 
 .chat-header-base {
@@ -145,7 +249,7 @@ textarea::placeholder {
   height: 51px;
   line-height: 51px;
   padding: 0 20px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color-secondary);
   background-color: transparent;
 }
 
@@ -203,12 +307,19 @@ textarea::placeholder {
   border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
-  border: 1px solid #e2e2e2;
+  border: 1px solid var(--border-color-secondary);
+}
+.chat-room__portrait-list li,
+.chat-room__user-list .user-item dt {
+  transition: transform .2s;
+  transform-origin: 50% 50%;
+  position: relative;
 }
 .chat-room__portrait-list li:hover,
 .chat-room__portrait-list li.selected {
-  border-color: rgb(39, 107, 196);
-  box-shadow: 0 0 2px rgb(39, 107, 196);
+  /* border-color: var(--color-primary);
+  box-shadow: 0 0 2px var(--color-primary); */
+  transform: scale(1.25)
 }
 
 .chat-room__portrait-list li img,
@@ -226,11 +337,11 @@ textarea::placeholder {
   width: 250px;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #e2e2e2;
+  border-right: 1px solid var(--border-color-secondary);
 }
 .user-search-input {
   border-color: transparent;
-  background-color: #f5f5f5;
+  background-color: var(--bg-color-gray);
   border-radius: 6px;
   height: 28px;
   font-size: 12px;
@@ -239,8 +350,8 @@ textarea::placeholder {
   border-color: transparent;
 }
 .user-search-input:focus {
-  background-color: #fff;
-  border-color: rgb(39, 107, 196);
+  background-color: var(--bg-color-primary);
+  border-color: var(--color-primary);
 }
 .chat-room__user-list .chat-user-header {
   border: none;
@@ -258,11 +369,11 @@ textarea::placeholder {
   position: absolute;
   right: 12px;
   font-size: 12px;
-  color: #999;
+  color: var(--text-color-gray);
 }
 .chat-room__user-list dl:hover,
 .chat-room__user-list dl.selected {
-  background-color: rgb(243, 243, 243);
+  background-color: var(--bg-color-gray);
 }
 .chat-room__user-list .user-item dt,
 .msg-block-base .portrait {
@@ -320,7 +431,7 @@ textarea::placeholder {
 }
 .chat-room__msg-mlp {
   height: 20%;
-  border-top: 1px solid #e2e2e2;
+  border-top: 1px solid var(--border-color-secondary);
   position: relative;
 }
 .chat-room__msg-mlp #msg-input {
@@ -333,11 +444,12 @@ textarea::placeholder {
   height: 100%;
   resize: none;
   border-bottom-right-radius: 6px;
+  background-color: var(--bg-color-primary);
 }
 .chat-room__msg-box .tip {
   text-align: center;
   margin: 0 auto;
-  color: #999;
+  color: var(--text-color-gray);
   font-size: 12px;
   margin: 15px;
 }
@@ -354,7 +466,7 @@ textarea::placeholder {
   overflow: hidden;
 }
 .msg-block-base .nick-name {
-  color: #666;
+  color: var(--text-color-gray);
   font-size: 14px;
 }
 .msg-block-base .msg {
@@ -366,6 +478,7 @@ textarea::placeholder {
   width: auto;
   word-break: break-word;
   max-width: 100%;
+  color: var(--text-color-secondary);
 }
 .msg-block-base .info {
   margin: 0 10px;
@@ -382,20 +495,20 @@ textarea::placeholder {
   border-right-color: transparent;
 }
 .msg-block-base.incoming-msg .msg {
-  background-color: #dbdbdb;
+  background-color: var(--bg-color-gray-enhance);
   float: left;
 }
 .msg-block-base.incoming-msg .msg::after {
   left: -3px;
-  border-bottom-color: #dbdbdb;
-  border-left-color: #dbdbdb;
+  border-bottom-color: var(--bg-color-gray-enhance);
+  border-left-color: var(--bg-color-gray-enhance);
   transform: rotateZ(45deg);
 }
-.msg-block-base.incoming-msg .portrait ,
+.msg-block-base.incoming-msg .portrait,
 .msg-block-base.incoming-msg .info {
   float: left;
 }
-.msg-block-base.own-msg .portrait ,
+.msg-block-base.own-msg .portrait,
 .msg-block-base.own-msg .info {
   float: right;
 }
@@ -403,13 +516,13 @@ textarea::placeholder {
   text-align: right;
 }
 .msg-block-base.own-msg .msg {
-  background-color: rgb(39, 107, 196);
+  background-color: var(--color-primary);
   color: #fff;
   float: right;
 }
 .msg-block-base.own-msg .msg::after {
   right: -3px;
-  border-bottom-color: rgb(39, 107, 196);
-  border-left-color: rgb(39, 107, 196);
+  border-bottom-color: var(--color-primary);
+  border-left-color: var(--color-primary);
   transform: rotateZ(225deg);
 }
