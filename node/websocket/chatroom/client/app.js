@@ -20,6 +20,17 @@
           p(e.target, e)
         })
       }
+    },
+    debounce(callback, timeout) {
+      let timer = null
+      return function(...args) {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          callback.apply(this, args)
+          clearTimeout(timer)
+          timer = null
+        }, timeout)
+      }
     }
   }
   class User {
@@ -60,6 +71,7 @@
         'private-msg-box-nickname'
       )
       const backToPublicBtn = document.getElementById('back-to-public')
+      const searchUserInput = document.getElementById('search-user')
 
       util.proxyEvent({
         proxy: userList,
@@ -82,12 +94,29 @@
         this.closePrivateMsgBox()
       })
 
+      searchUserInput.addEventListener('input', util.debounce((e) => {
+        this.filterUsers(e.target.value)
+      }, 400))
+
       return {
         userList,
         privateMsgBoxWrap,
         privateMsgBox,
-        privateMsgBoxNickname
+        privateMsgBoxNickname,
+        backToPublicBtn,
+        searchUserInput
       }
+    }
+    filterUsers(content) {
+      console.log(content);
+      this.getUserNodes().forEach(u => {
+        const nickname = u.getAttribute('data-uname')
+        if (nickname.indexOf(content) >= 0 || !content.trim()) {
+          u.classList.remove('hidden')
+        } else {
+          u.classList.add('hidden')
+        }
+      })
     }
     showPrivateMessages(user) {
       const { id, nickname } = user
