@@ -145,7 +145,6 @@
       }
     }
     filterUsers(content) {
-      console.log(content);
       this.getUserNodes().forEach(u => {
         const nickname = u.getAttribute('data-uname')
         if (nickname.indexOf(content) >= 0 || !content.trim()) {
@@ -173,6 +172,9 @@
         this.appendMessageBlock({ ...m }, m.content, true)
       })
       this.clearCountTip(id)
+    }
+    clearStorePrivateMessages({ id }) {
+      this.userMessages.delete(id)
     }
     clearCountTip(id) {
       this.getUserNodes().forEach(u => {
@@ -347,9 +349,9 @@
       this.listen('privateMessage', data => {
         this.injectPrivateMessage(data)
       })
-      this.listen('private')
       this.listen('leave', user => {
         this.appendTip(user.nickname + '离开聊天')
+        this.clearStorePrivateMessages(user)
       })
 
       this.els.msgInput.focus()
